@@ -1,0 +1,8 @@
+K44206225: Ansible jobs fail with the error "AbstractDigestAuthHandler does not support the following scheme: 'X-Auth-Token'"
+
+Recommended Actions:
+bigstart restart restjavad
+bigstart restart restnoded
+
+
+https://my.f5.com/manage/s/article/K44206225

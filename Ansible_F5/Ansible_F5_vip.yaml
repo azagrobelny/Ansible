@@ -1,0 +1,33 @@
+### Create VIP ###
+  tasks:
+    - name: Create a VIP
+      bigip_virtual_server:
+        provider: "{{ provider }}"
+        description: ansible_f5
+        destination: 172.16.10.111
+        name: vip-test-1
+        port: 80
+        snat: Automap
+        pool: pool-1
+        state: present
+        partition: Common
+        profiles:
+          - http
+          - clientssl
+      delegate_to: localhost 
+
+### Delate VIP ###
+  tasks:
+    - name: Delate a VIP
+      bigip_virtual_server:
+        provider: "{{ provider }}"
+        name:  AZ_Ansible_F5_VIP
+        state: absent
+        partition: Common
+      delegate_to: localhost
+
+### Disabled VIP ###
+         state: "disabled"
+
+### Enabled VIP ###
+         state: "enabled"

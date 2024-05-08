@@ -1,0 +1,18 @@
+### Create a node ###
+    - name: Create a node
+      bigip_node:
+        provider: "{{ provider }}"
+        name: "node1"
+        address: "192.0.2.1"
+        state: present
+        partition: Common
+      delegate_to: localhost
+
+### Delate a node ###
+    - name: Delate a node
+      bigip_node:
+        provider: "{{ provider }}"
+        name: "node1"
+        state: absent
+        partition: Common
+      delegate_to: localhost

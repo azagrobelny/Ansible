@@ -1,0 +1,15 @@
+### Run the playbook ###
+ansible-playbook -i inventory f5_playbook.yml
+
+https://clouddocs.f5.com/products/orchestration/ansible/devel/usage/playbook_tutorial.html
+
+### Save config ###
+  tasks:
+    - name: Save
+      bigip_config:
+        save: yes
+        provider: "{{ provider }}" 
+      delegate_to: localhost
+
+ 
+      

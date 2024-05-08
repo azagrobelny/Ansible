@@ -1,0 +1,36 @@
+### Create a pool ###
+    - name: Create a pool
+      bigip_pool:
+        provider: "{{ provider }}"
+        lb_method: ratio-member
+        name: AZ_Ansible_F5_pool_1
+        slow_ramp_time: 120
+        state: present
+        partition: Common
+      delegate_to: localhost
+
+### Delate a pool ###
+  tasks:
+    - name: Deleate pool
+      bigip_pool:
+        provider: "{{ provider }}"
+        state: absent
+        partition: Common
+        name: AZ_Ansible_F5_pool_2
+        
+### View all pool ###
+    - name: Pobierz informacje o pulach
+      bigip_pool_facts:
+      provider: "{{ provider }}"
+      register: pool_info
+
+    - name: Wyświetl informacje o pulach
+      debug:
+        var: pool_info
+
+### Lb_method pool ###
+        lb_method: round-robin
+        lb_method: least-connections-member
+        lb_method: least-sessions
+        lb_method: fastest-node
+        lb_method: ratio-member
