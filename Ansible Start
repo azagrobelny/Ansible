@@ -18,7 +18,9 @@ inventory = ./hosts
 
 4. konfiguracja /etc/ansible/hosts
 ##############################
-192.168.174.128 ubuntu1
+[linux]
+ubuntu1
+ubuntu2
 
 
 
