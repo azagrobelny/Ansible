@@ -18,7 +18,7 @@ inventory = ./hosts
 192.168.174.128
 192.168.174.130
 
-3. Wykonanie prostej komendy zdalnie
+4. Wykonanie prostej komendy zdalnie
 ##############################
 ansible grupa1 -m raw -u lab -a "pwd" -k
 
