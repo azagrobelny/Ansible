@@ -18,10 +18,13 @@ inventory = ./hosts
 
 4. konfiguracja /etc/ansible/hosts
 ##############################
-[linux]
+[grupa1]
 ubuntu1
 ubuntu2
 
+[grupa2]
+router1
+router2
 
 
 
