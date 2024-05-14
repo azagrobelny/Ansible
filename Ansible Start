@@ -1,0 +1,16 @@
+Instalacja Ansible via Ubuntu
+##############################
+sudo apt update                                              - Najpierw musisz zaktualizować system:
+sudo apt install software-properties-common                  - Następnie zainstaluj pakiet software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible   - Dodaj repozytorium Ansible do listy źródeł:
+sudo apt install ansible                                     - Na koniec zainstaluj Ansible:
+
+Tworzenie Inventory
+###################
+sudo nano /etc/ansible/inventory
+
+
+Troubleshooting
+################
+ansible -i inventory Ubuntu -m ping -u lab --ask-pass  -  Sprawdzenie połączenia (login/hasło)
+
