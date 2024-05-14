@@ -5,7 +5,7 @@ sudo apt install software-properties-common                  - Następnie zainst
 sudo add-apt-repository --yes --update ppa:ansible/ansible   - Dodaj repozytorium Ansible do listy źródeł:
 sudo apt install ansible                                     - Na koniec zainstaluj Ansible:
 
-Domyślnie lokalizacja: /etc/ansible
+Domyślna lokalizacja Ansible: /etc/ansible
 
 2. Konfiguracja ansible.cfg
 ###############################
