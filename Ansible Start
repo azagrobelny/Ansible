@@ -8,13 +8,16 @@ sudo apt install ansible                                     - Na koniec zainsta
 Domyślnie lokalizacja: /etc/ansible
 
 2. Konfiguracja ansible.cfg
+###############################
 [default]
 inventory = ./hosts
 
 3. konfiguracja /etc/hosts
+##############################
 192.168.174.128 ubuntu1
 
 4. konfiguracja /etc/ansible/hosts
+##############################
 192.168.174.128 ubuntu1
 
 
