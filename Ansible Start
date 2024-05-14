@@ -12,30 +12,19 @@ Domyślna lokalizacja Ansible: /etc/ansible
 [default]
 inventory = ./hosts
 
-3. konfiguracja /etc/hosts
-##############################
-192.168.174.128 ubuntu1
-192.168.174.129 ubuntu2
-
-4. konfiguracja /etc/ansible/hosts
+3. Konfiguracja ansible/hosts
 ##############################
 [grupa1]
-ubuntu1
-ubuntu2
+192.168.174.128
+192.168.174.130
 
-[grupa2]
-router1
-router2
-
-
+3. Wykonanie prostej komendy zdalnie
+##############################
+ansible grupa1 -m raw -u lab -a "pwd" -k
 
 
 
 
-[default]
-inventory = /etc/ansible/hosts
 
-Troubleshooting
-################
-ansible -i inventory Ubuntu -m ping -u lab --ask-pass  -  Sprawdzenie połączenia (login/hasło)
+
 
