@@ -9,6 +9,8 @@ Tworzenie Inventory
 ###################
 sudo nano /etc/ansible/inventory
 
+[default]
+inventory = /etc/ansible/hosts
 
 Troubleshooting
 ################
