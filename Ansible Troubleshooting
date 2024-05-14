@@ -1,0 +1,1 @@
+ansible -i inventory Ubuntu -m ping -u lab --ask-pass  -  Sprawdzenie połączenia (login/hasło)
