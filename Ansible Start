@@ -26,4 +26,5 @@ ansible grupa1 -m raw -u lab -a "pwd" -k
 ##############################
 [all:vars]
 ansible_user = lab
+ansible_password = lab123
 ansible_port = 22
