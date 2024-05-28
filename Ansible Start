@@ -22,9 +22,8 @@ inventory = ./hosts
 ##############################
 ansible grupa1 -m raw -u lab -a "pwd" -k
 
-
-
-
-
-
-
+5. Dodanie argumentów w ./ansible/hosts
+##############################
+[all:vars]
+ansible_user = lab
+ansible_port = 22
