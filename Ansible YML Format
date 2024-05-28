@@ -1,0 +1,23 @@
+---
+  all:
+    vars:
+      ansible_user: lab
+      ansible_password: lab123  
+      ansible_port: 22
+      ansible_connection: ansible.netcommon.network_cli
+      ansible_network_os: cisco.ios.ios
+    children:
+      grupa1:
+        hosts:
+          host1:
+          host2:
+      grupa2:
+        children:
+          pod_grupa1:
+            hosts:
+              host1:
+              host2:
+          pod_grupa2:
+             hosts:
+               host1:
+               host2:
