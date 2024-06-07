@@ -1,11 +1,12 @@
-1. Tworzenie Inventory
+1. Konfiguracja ansible.cfg
 ----------------------------------
 nano /etc/ansible/ansible.cfg
 
 [default]
 inventory = ./hosts
 
-2. Tworzenie 
+
+2. Tworzenie Inventory
 ----------------------------------
 [all:vars]
 ansible_user = lab
