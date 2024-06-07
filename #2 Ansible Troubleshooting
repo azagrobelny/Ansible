@@ -1,6 +1,8 @@
-[Basic]
+Basic
+------------
 annsible -- version -> sprawdzenie wersji oraz ścieżki 
+ansible-doc [nazwa_modułu] np. ansible-doc ios_config -> wyświetlenie helpa dla danego modułu
 
-
-[Connection]
+Connection
+-------------
 ansible -i inventory Ubuntu -m ping -u lab --ask-pass  ->  Sprawdzenie połączenia (login/hasło)
