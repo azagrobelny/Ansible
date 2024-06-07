@@ -1,7 +1,7 @@
 Basic
 ------------
 annsible -- version -> sprawdzenie wersji oraz ścieżki 
-ansible-doc [nazwa_modułu] np. ansible-doc ios_config -> wyświetlenie helpa dla danego modułu
+ansible-doc [nazwa_modułu np. ansible-doc ios_config] -> wyświetlenie helpa dla danego modułu
 
 Connection
 -------------
