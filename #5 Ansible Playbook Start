@@ -5,4 +5,15 @@ nano /etc/ansible/ansible.cfg
 [default]
 inventory = ./hosts
 
-2. 
+2. Tworzenie 
+----------------------------------
+[all:vars]
+ansible_user = lab
+ansible_password = lab123
+ansible_port = 22
+
+[grupa1]
+192.168.174.128
+
+[grupa2]
+192.168.174.130
