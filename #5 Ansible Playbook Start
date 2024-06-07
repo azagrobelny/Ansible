@@ -1,1 +1,8 @@
+1. Tworzenie Inventory
+----------------------------------
+nano /etc/ansible/ansible.cfg
 
+[default]
+inventory = ./hosts
+
+2. 
