@@ -1,0 +1,21 @@
+1. Konfiguracja ansible.cfg
+-------------------------------
+[default]
+inventory = ./hosts
+
+2. Konfiguracja ansible/hosts
+--------------------------------
+[grupa1]
+192.168.174.128
+192.168.174.130
+
+3. Wykonanie prostej komendy zdalnie
+----------------------------------------
+ansible grupa1 -m raw -u lab -a "pwd" -k
+
+4. Dodanie argumentów w ./ansible/hosts
+-----------------------------------------
+[all:vars]
+ansible_user = lab
+ansible_password = lab123
+ansible_port = 22
