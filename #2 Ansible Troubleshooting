@@ -6,3 +6,24 @@ ansible-doc [nazwa_modułu np. ansible-doc ios_config] -> wyświetlenie helpa dl
 Connection
 -------------
 ansible -i inventory Ubuntu -m ping -u lab --ask-pass  ->  Sprawdzenie połączenia (login/hasło)
+
+
+No matching key exchange method found. Their offer: diffie-hellman-group1-sha1
+-----------
+1. sudo nano /etc/ssh/ssh_config 
+2. Add the following to the ssh_conf file above the line we just uncommented: KexAlgorithms +diffie-hellman-group14-sha1
+
+...
+#   Port 22
+   Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
+   KexAlgorithms +diffie-hellman-group14-sha1
+#   EscapeChar ~
+
+
+Please add this host's fingerprint to your known_hosts file to manage this hos
+-----------
+1. Modify the /etc/ansible/ansible.cfg or create an ansible.cfg file in the project directory and add the following lines to it:
+[defaults]
+host_key_checking = false
+
+2.run comand  export ANSIBLE_HOST_KEY_CHECKING=False 
