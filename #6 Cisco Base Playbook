@@ -1,0 +1,14 @@
+---
+- hosts: Cisco
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: TASK1_show version
+      ios_command:
+        commands: show version
+      register: version
+
+    - name: TASK2_display all
+      debug:
+        var: version["stdout_lines"][0]
