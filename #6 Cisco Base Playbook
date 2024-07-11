@@ -21,3 +21,24 @@
     - name: TASK3_display int brief
       debug:
         var: interfaces["stdout_lines"][0]
+
+
+//* lub (opcja skrócona z jedna zmienna) //
+
+
+---
+- hosts: Cisco
+  gather_facts: false
+  connection: network_cli
+
+  tasks:
+    - name: TASK1_run multiple commands
+      ios_command:
+        commands: 
+        - show version
+        - show ip interface brief
+      register: output
+
+    - name: TASK2_display all
+      debug:
+        var: output["stdout_lines"]
