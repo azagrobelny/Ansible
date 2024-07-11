@@ -9,6 +9,15 @@
         commands: show version
       register: version
 
-    - name: TASK2_display all
+    - name: TASK2_display version
       debug:
         var: version["stdout_lines"][0]
+    
+    - name: TASK3_show ip int brief
+      ios_command:
+        commands: show ip int brief
+      register: interfaces
+
+    - name: TASK3_display_int brief
+      debug:
+        var: interfaces["stdout_lines"][0]
