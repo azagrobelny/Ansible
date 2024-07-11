@@ -18,6 +18,6 @@
         commands: show ip int brief
       register: interfaces
 
-    - name: TASK3_display_int brief
+    - name: TASK3_display int brief
       debug:
         var: interfaces["stdout_lines"][0]
