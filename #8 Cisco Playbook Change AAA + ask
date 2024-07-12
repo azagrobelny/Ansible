@@ -1,0 +1,38 @@
+- name: Konfiguracja SW - AAA accounting 
+  hosts: lab
+  gather_facts: false
+  connection: network_cli
+  become: true
+
+  tasks:
+    - name: Krok 1 Konfiguracja aaa accounting update periodic 1440
+      ios_config:
+        lines:
+          - aaa accounting update periodic 1440
+
+    - name: Krok 2 Pobieranie aktualnej konfiguracji aaa accounting
+      ios_command:
+        commands:
+          - show running-config | inc aaa accounting update
+      register: config_output
+
+    - name: Krok 3 Sprawdz poprawność konfiguracji
+      debug:
+        var: config_output["stdout_lines"]
+
+    - name: Krok 4 Pytanie
+      pause:
+        prompt: "Czy chcesz zapisać konfigurację? (tak/nie): "
+      register: user_response
+
+    - name: Krok 5 Zapisanie konfiguracji, conf poprawny
+      ios_command:
+        commands:
+          - write memory
+      when: user_response.user_input.lower() == 'tak'
+
+    - name: Krok 6 Negacja
+      debug:
+        msg: "Konfiguracja wymaga poprawy"
+      
+      when: user_response.user_input.lower() == 'nie'
