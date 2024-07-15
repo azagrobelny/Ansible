@@ -1,0 +1,27 @@
+Pobiera 
+
+
+
+- name: Moj_Playbook
+  hosts: lab
+  gather_facts: no
+  connection: network_cli
+  become: true
+
+  tasks:
+    - name: Pobierz listę interfejsów
+      ios_facts:
+        gather_subset: interfaces
+      register: result
+
+    - name: Wyświetl listę interfejsów
+      debug:
+        var: result.ansible_facts.ansible_net_interfaces
+
+    - name: Skonfiguruj opis interfejsów
+      ios_config:
+        lines:
+          - description ANSIBLE TO DO
+        parents: interface {{ item.key }}
+      with_dict: "{{ result.ansible_facts.ansible_net_interfaces }}"
+      when: item.key is match("^(GigabitEthernet|TenGigabitEthernet)")
