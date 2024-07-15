@@ -27,3 +27,8 @@ Please add this host's fingerprint to your known_hosts file to manage this hos
 host_key_checking = false
 
 2.run comand  export ANSIBLE_HOST_KEY_CHECKING=False 
+
+
+fatal: [172.16.20.200]: FAILED! => {"changed": false, "msg": "paramiko: The authenticity of host '172.16.20.200' can't be established.\nThe ssh-rsa key fingerprint is b'fba20cabd895a7ee39f713555ad74811'."}
+--------------------------------------
+Run root@ans1cen:/etc/ansible# ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook playbook_test.ym
