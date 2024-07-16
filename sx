@@ -1,0 +1,34 @@
+- name: Auth_periodic
+  hosts: lab
+  gather_facts: no
+  connection: network_cli
+  become: true
+  
+  tasks:
+
+    - name: Pobierz listÄ™ interfejsĂłw
+      ios_facts:
+        gather_subset: interfaces
+      register: result
+
+    - name: SprawdĹş konfiguracjÄ™ interfejsu
+      ios_command:
+        commands: "show running-config interface {{ item.key }}"
+      register: interface_config
+      with_dict: "{{ result.ansible_facts.ansible_net_interfaces }}"
+      no_log: true
+
+    - name: Skonfiguruj odpowiednie interfejsy
+      ios_config:
+        lines:
+          - authentication periodic
+        parents: interface {{ item.item.key }}
+      with_items: "{{ interface_config.results }}"
+      when: "'authentication port-control auto' in item.stdout[0]"
+      no_log: true
+
+    - name: Zapisz konfiguracje
+      ios_command:
+        commands: "write memory"
+
+       
