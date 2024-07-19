@@ -6,3 +6,6 @@ Zapisywanie do pliku
 ---------------------
 ansible 172.16.20.200 -m raw -a "show version" -u lab -k > show_ver.txt
 
+
+Wyłuskiwanie 
+ansible 172.16.20.200 -m raw -a "show run" -u lab -k | grep version >  show_ver.txt
