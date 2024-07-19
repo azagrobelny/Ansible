@@ -1,1 +1,8 @@
+Show version
+---------------------
+ansible 172.16.20.200 -m raw -a "show version" -u lab -k
+
+Zapisywanie do pliku
+---------------------
+ansible 172.16.20.200 -m raw -a "show version" -u lab -k > show_ver.txt
 
