@@ -1,0 +1,16 @@
+- name: show ver
+  hosts: all
+  gather_facts: no
+  connection: network_cli
+  become: true
+  
+  tasks:
+
+    - name: show version
+      ios_command:
+        commands: "show version | include Version 17."
+      register: result
+
+    - name: display all
+      debug:
+        var: result ["stdout_lines"]
