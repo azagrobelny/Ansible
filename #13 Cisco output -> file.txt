@@ -1,0 +1,16 @@
+name: show version -> file.txt
+  hosts: lab
+  gather_facts: no
+  connection: network_cli
+  become: true
+  
+  tasks:
+
+    - name: show version
+      ios_command:
+        commands: "show running-config"
+      register: result
+
+    - debug: var=result.stdout_lines
+    - name: save 
+      copy: content="{{result.stdout_lines[0]}}" dest="./{{inventory_hostname }}.txt"
