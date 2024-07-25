@@ -1,0 +1,14 @@
+Kilka hostów:
+-------------------
+- name: playbook
+  hosts: lab, lab1, lab2
+  gather_facts: no
+  connection: network_cli
+
+
+Kilka grup:
+-------------------
+- name: playbook
+  hosts: grupa1:grupa2:grupa3
+  gather_facts: no
+  connection: network_cli
