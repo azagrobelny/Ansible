@@ -1,4 +1,4 @@
-name: show version -> file.txt
+- name: show run -> file.txt
   hosts: lab
   gather_facts: no
   connection: network_cli
@@ -11,6 +11,7 @@ name: show version -> file.txt
         commands: "show running-config"
       register: result
 
-    - debug: var=result.stdout_lines
     - name: save 
-      copy: content="{{result.stdout_lines[0]}}" dest="./{{inventory_hostname }}.txt"
+      copy: 
+        content: "{{result.stdout_lines[0]}}" 
+        dest: "./{{inventory_hostname }}.txt"
