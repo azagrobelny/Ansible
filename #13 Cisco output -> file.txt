@@ -8,7 +8,7 @@
 
     - name: show version
       ios_command:
-        commands: "show running-config"
+        commands: "show version"
       register: result
 
     - name: save 
