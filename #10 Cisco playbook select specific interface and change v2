@@ -1,17 +1,17 @@
 - name: Auth_periodic
-  hosts: lab
+  hosts: olsztyn:zalesie:starawies
   gather_facts: no
   connection: network_cli
   become: true
   
   tasks:
 
-    - name: Pobierz listÄ™ interfejsĂłw
+    - name: Pobierz listę interfejsów
       ios_facts:
         gather_subset: interfaces
       register: result
 
-    - name: SprawdĹş konfiguracjÄ™ interfejsu
+    - name: Sprawdź konfigurację interfejsu
       ios_command:
         commands: "show running-config interface {{ item.key }}"
       register: interface_config
@@ -22,10 +22,15 @@
       ios_config:
         lines:
           - authentication periodic
+          - authentication timer reauthenticate server
         parents: interface {{ item.item.key }}
       with_items: "{{ interface_config.results }}"
       when: "'authentication port-control auto' in item.stdout[0]"
       no_log: true
+
+    - name: Clear auth session
+      ios_command:
+        commands: clear authentication sessions
 
     - name: Zapisz konfiguracje
       ios_command:
