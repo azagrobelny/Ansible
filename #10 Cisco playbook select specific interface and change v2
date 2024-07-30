@@ -1,5 +1,5 @@
 - name: Auth_periodic
-  hosts: olsztyn:zalesie:starawies
+  hosts: lab
   gather_facts: no
   connection: network_cli
   become: true
