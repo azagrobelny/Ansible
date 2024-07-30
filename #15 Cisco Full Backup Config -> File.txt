@@ -1,0 +1,27 @@
+- name: Save Full Backup Config
+  hosts: lab
+  gather_facts: no
+  connection: network_cli
+  become: true
+
+  tasks:
+    - name: get timestamp
+      command: date +%Y%m%d-%H-%M-%S
+      register: timestamp
+
+    - name: Get running-config and save it
+      ios_config:
+        backup: yes
+      register: config_output
+
+
+
+
+backup_options 
+This is a dict object containing configurable options related to backup file path. The value of this option is read only when backup is set to yes, if backup is set to no this option will be silently ignored.
+
+dir_path 
+This option provides the path ending with directory name in which the backup configuration file will be stored. If the directory does not exist it will be first created and the filename is either the value of filename or default filename as described in filename options description. If the path value is not given in that case a backup directory will be created in the current working directory and backup configuration will be copied in filename within backup directory.
+
+filename 
+The filename to be used to store the backup configuration. If the filename is not given it will be generated based on the hostname, current time and date in format defined by <hostname>_config.<current-date>@<current-time>
