@@ -1,5 +1,5 @@
 - name: Find Port no802.1x
-  hosts: lab
+  hosts: wroclaw:zakopane:bydgoszcz:gdansk:lodz
   gather_facts: no
   connection: network_cli
   become: true
@@ -21,25 +21,21 @@
       register: interface_config
       no_log: true
 
-
-    - name: Zapisz listę interfejsów bez authentication port-control auto do zmiennej
+    - name: Zapisz listę interfejsów bez NAC do zmiennej
       set_fact:
         interfaces_without_auth: "{{ interfaces_without_auth | default([]) + [item.item.key] }}"
       when: "'authentication port-control auto' not in item.stdout[0] and 'switchport mode access' in item.stdout[0]"
       with_items: "{{ interface_config.results }}"
       no_log: true
-    
-    - name: Zapisz do pliku listę interfejsów bez 802.1x
-      copy:
-        content: "{{ interfaces_without_auth | to_nice_yaml }}"
-        dest: "./{{inventory_hostname }}.yaml"
 
-    - name: Wyświetl interfejsy bez authentication port-control auto
-      debug:
-        msg: "{{interfaces_without_auth}}"
-
-    - name: Zlicz liczbę interfejsów bez authentication port-control auto
+    - name: Zlicz liczbę interfejsów bez NAC
       set_fact:
         interfaces_count: "{{ interfaces_without_auth | length }}"
+
+    - name: Zapisz do pliku listę interfejsów bez NAC
+      copy:
+        content: "{{ interfaces_without_auth | to_nice_yaml }}suma:{{ interfaces_count | to_nice_yaml }}"
+        dest: "./{{ group_names[0] }}_{{ inventory_hostname }}.yaml"
+      
     - debug:
-        msg: "Liczba interfejsów bez authentication port-control auto: {{ interfaces_count }}"
+        msg: "Liczba interfejsów bez NAC: {{ interfaces_count }}"
