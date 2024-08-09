@@ -1,0 +1,4 @@
+    - name: Zapisz do pliku listę interfejsów bez NAC
+      copy:
+        content: "{{ interfaces_without_auth | to_nice_yaml }}"
+        dest: "./{{ group_names[0] }}_{{ inventory_hostname }}.yaml"
