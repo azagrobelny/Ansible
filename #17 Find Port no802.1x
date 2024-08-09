@@ -1,0 +1,45 @@
+- name: Find Port no802.1x
+  hosts: lab
+  gather_facts: no
+  connection: network_cli
+  become: true
+  ignore_errors: true
+
+    
+  tasks:
+
+    - name: Pobierz listę interfejsów
+      ios_facts:
+        gather_subset: interfaces
+      register: result
+      no_log: true
+
+    - name: Sprawdź konfigurację interfejsu
+      ios_command:
+        commands: "show running-config interface {{ item.key }}"
+      with_dict: "{{ result.ansible_facts.ansible_net_interfaces }}"
+      register: interface_config
+      no_log: true
+
+
+    - name: Zapisz listę interfejsów bez authentication port-control auto do zmiennej
+      set_fact:
+        interfaces_without_auth: "{{ interfaces_without_auth | default([]) + [item.item.key] }}"
+      when: "'authentication port-control auto' not in item.stdout[0] and 'switchport mode access' in item.stdout[0]"
+      with_items: "{{ interface_config.results }}"
+      no_log: true
+    
+    - name: Zapisz do pliku listę interfejsów bez 802.1x
+      copy:
+        content: "{{ interfaces_without_auth | to_nice_yaml }}"
+        dest: "./{{inventory_hostname }}.yaml"
+
+    - name: Wyświetl interfejsy bez authentication port-control auto
+      debug:
+        msg: "{{interfaces_without_auth}}"
+
+    - name: Zlicz liczbę interfejsów bez authentication port-control auto
+      set_fact:
+        interfaces_count: "{{ interfaces_without_auth | length }}"
+    - debug:
+        msg: "Liczba interfejsów bez authentication port-control auto: {{ interfaces_count }}"
