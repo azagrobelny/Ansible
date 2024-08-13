@@ -1,0 +1,23 @@
+- name: Find Port Connected & Count
+  hosts: lab
+  gather_facts: no
+  connection: network_cli
+  become: true
+  ignore_errors: true
+
+    
+  tasks:
+
+    - name: Pobierz listę interfejsów
+      ios_facts:
+        gather_subset: interfaces
+      register: result
+      no_log: true
+
+    - name: Zlicz interfejsy w stanie connected
+      set_fact:
+        connected_interfaces: "{{ result.ansible_facts.ansible_net_interfaces | dict2items | selectattr('value.operstatus', 'equalto', 'up') | list }}"
+
+    - name: Wyświetl liczbę interfejsów w stanie connected
+      debug:
+        msg: "Liczba interfejsów w stanie connected: {{ connected_interfaces | length }}"
