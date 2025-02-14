@@ -1,0 +1,41 @@
+Metodologia użyta do sprawdzenia:
+- przeszukuj tylko porty w stanie enable
+- przeszukuj tylko porty z włączonym port security
+- zapisz do pliku dane o jaki interface, jaki użyty macadderes do port security, vlan oraz description
+
+
+
+
+
+- name: check_portsecurityfinal
+  hosts: lab
+  gather_facts: no
+  connection: network_cli
+  become: true
+  ignore_errors: yes
+
+  tasks:
+
+    - name: 1_Pobierz listę interfejsów
+      ios_facts:
+        gather_subset: interfaces
+      register: result
+
+    - name: 2_Sprawdź konfigurację interfejsów
+      ios_command:
+        commands: "show running-config interface {{ item.key }}"
+      register: interface_config
+      with_dict: "{{ result.ansible_facts.ansible_net_interfaces }}"
+  
+    - name: 3_Zapisz listę interfejsów do rekonfiguracji z MAC adresami
+      set_fact:
+        interfaces_with_details: "{{ interfaces_with_details | default([]) + [{'interface': item.item.key, 'mac_address': (item.stdout[0] | regex_search('switchport port-security mac-address sticky (\\S+)') | default('')).split(' ')[-1] if item.stdout[0] | regex_search('switchport port-security mac-address sticky (\\S+)') else 'brak', 'vlan': (item.stdout[0] | regex_search('switchport access vlan (\\d+)') | default('')).split(' ')[-1] if item.stdout[0] | regex_search('switchport access vlan (\\d+)') else 'brak', 'description': (item.stdout[0] | regex_search('description (.+)') | default('brak opisu')).split(' ', 1)[-1] if item.stdout[0] | regex_search('description (.+)') else 'brak'}] }}"
+      when: "'switchport port-security mac-address sticky' in item.stdout[0] and 'shutdown' not in item.stdout[0]"
+      loop: "{{ interface_config.results }}"
+      no_log: true
+
+    - name: 4_Zapisz do pliku listę interfejsów z port-security i MAC adresami
+      copy:
+        content: "{{ interfaces_with_details | to_nice_yaml }}"
+        dest: "/etc/ansible/portsecurity/{{ group_names[0] }}_{{ inventory_hostname }}.yaml"
+      ignore_errors: yes
