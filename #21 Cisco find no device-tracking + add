@@ -1,0 +1,49 @@
+- name: find_device-tracking
+  hosts: gdansk,gdansk-db
+  gather_facts: no
+  connection: network_cli
+  become: true
+  ignore_errors: true
+
+    
+  tasks:
+
+    - name: Pobierz listę interfejsów
+      ios_facts:
+        gather_subset: interfaces
+      register: result
+      #no_log: true
+
+    - name: 1-Sprawdź konfigurację interfejsu
+      ios_command:
+        commands: "show running-config interface {{ item.key }}"
+      with_dict: "{{ result.ansible_facts.ansible_net_interfaces }}"
+      register: interface_config
+      no_log: true
+
+
+    - name: 2-Zapisz listę interfejsów bez device-tracking
+      set_fact:
+        interfaces_without_auth: "{{ interfaces_without_auth | default([]) + [item.item.key] }}"
+      when: "'device-tracking attach-policy IPDT_POLICY' not in item.stdout[0] and 'authentication port-control auto' in item.stdout[0]"
+      with_items: "{{ interface_config.results }}"
+      no_log: true
+    
+    - name: 3-Zapisz do pliku listę interfejsów bez device-tracking
+      copy:
+        content: "{{ interfaces_without_auth | to_nice_yaml }}"
+        dest: "/etc/ansible/no_device_tracking/{{ group_names[0] }}_{{ inventory_hostname }}.yaml"
+      when: interfaces_without_auth | length > 0
+
+    - name: 4-Dodaj device-tracking do interfejsów bez IPDT_POLICY
+      ios_config:
+        lines:
+          - "device-tracking attach-policy IPDT_POLICY"
+        parents: "interface {{ item }}"
+      with_items: "{{ interfaces_without_auth }}"
+      when: interfaces_without_auth | length > 0
+
+    - name: 5-Zapisz konfigurację (write memory)
+      ios_command:
+        commands:
+        - write memory
